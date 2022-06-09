@@ -12,10 +12,10 @@ namespace ORPZ_lab5.ChainOfResponsibility
 
         public override void Add(Money money)
         {
-            if (money is Coin && money.Value == Sample.Value && money.Currency == Sample.Currency)
-                Count++;
-            else if (NextTerminal != null)
-                NextTerminal.Add(money);
+            if (money is Coin && money.Value == _sample.Value && money.Currency == _sample.Currency)
+                _count++;
+            else if (_nextTerminal != null)
+                _nextTerminal.Add(money);
             else
                 throw new Exception("The terminal you need has not been found.");
         }
@@ -25,14 +25,14 @@ namespace ORPZ_lab5.ChainOfResponsibility
             if (model == null)
                 model = new MoneyCountModel();
             
-            model.TotalSum += Sample.Value * Count * 0.01m;
+            model.TotalSum += _sample.Value * _count * 0.01m;
             
-            if (model.CoinsCount.ContainsKey(Sample.Value))
-                model.CoinsCount[Sample.Value] += Count;
+            if (model.CoinsCount.ContainsKey(_sample.Value))
+                model.CoinsCount[_sample.Value] += _count;
             else
-                model.CoinsCount[Sample.Value] = Count;
+                model.CoinsCount[_sample.Value] = _count;
 
-            return NextTerminal == null ? model : NextTerminal.Calculate(model);
+            return _nextTerminal == null ? model : _nextTerminal.Calculate(model);
         }
     }
 }

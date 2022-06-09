@@ -5,13 +5,13 @@ namespace ORPZ_lab5.ChainOfResponsibility
 {
     public abstract class Terminal
     {
-        protected Terminal NextTerminal;
-        protected Money Sample;
-        protected int Count;
+        protected Terminal _nextTerminal;
+        protected Money _sample;
+        protected int _count;
 
         protected Terminal(Money sample)
         {
-            Sample = sample;
+            _sample = sample;
         }
 
         public abstract void Add(Money money);
@@ -20,8 +20,8 @@ namespace ORPZ_lab5.ChainOfResponsibility
 
         public Terminal SetNext(Terminal terminal)
         {
-            NextTerminal = terminal;
-            return NextTerminal;
+            _nextTerminal = terminal;
+            return _nextTerminal;
         }
     }
 }
