@@ -24,9 +24,9 @@ namespace ORPZ_lab5.ChainOfResponsibility
         {
             if (model == null)
                 model = new MoneyCountModel();
-            
+
             model.TotalSum += _sample.Value * _count * 0.01m;
-            
+
             if (model.CoinsCount.ContainsKey(_sample.Value))
                 model.CoinsCount[_sample.Value] += _count;
             else

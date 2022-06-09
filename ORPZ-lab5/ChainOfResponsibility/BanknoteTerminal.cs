@@ -26,7 +26,7 @@ namespace ORPZ_lab5.ChainOfResponsibility
                 model = new MoneyCountModel();
 
             model.TotalSum += _sample.Value * _count;
-            
+
             if (model.BanknoteCount.ContainsKey(_sample.Value))
                 model.BanknoteCount[_sample.Value] += _count;
             else

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using ORPZ_lab5.ChainOfResponsibility;
-using ORPZ_lab5.Entities;
 using ORPZ_lab5.Factories;
-using ORPZ_lab5.Models;
 
 namespace ORPZ_lab5
 {
@@ -13,9 +10,9 @@ namespace ORPZ_lab5
     // можливість приймати монети та банкноти. Крім того, для монет різного
     // номіналу існують окремі прийомники. Виводити загальну внесену суму та
     // кількість монет та банкнот кожного номіналу окремо.
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             IAbstractFactory usdFactory = new UsdFactory();
 
@@ -25,7 +22,7 @@ namespace ORPZ_lab5
             var banknote5 = usdFactory.MakeBanknote(5);
             var banknote10 = usdFactory.MakeBanknote(10);
             var banknote50 = usdFactory.MakeBanknote(50);
-            
+
             Terminal terminal = new CoinTerminal(coin5);
             terminal.SetNext(new CoinTerminal(coin10))
                 .SetNext(new CoinTerminal(coin50))
@@ -33,9 +30,9 @@ namespace ORPZ_lab5
                 .SetNext(new BanknoteTerminal(banknote10))
                 .SetNext(new BanknoteTerminal(banknote50));
 
-            string report = GetReport(terminal);
+            var report = GetReport(terminal);
             Console.WriteLine(report);
-            
+
             terminal.Add(coin5);
             terminal.Add(coin5);
             terminal.Add(coin50);
@@ -49,22 +46,18 @@ namespace ORPZ_lab5
 
         public static string GetReport(Terminal startTerminal)
         {
-            MoneyCountModel model = startTerminal.Calculate();
+            var model = startTerminal.Calculate();
 
-            StringBuilder report = new StringBuilder();
+            var report = new StringBuilder();
             report.AppendLine($"Total sum: {model.TotalSum}");
-            
+
             report.AppendLine("Banknotes:");
             foreach (var banknotePair in model.BanknoteCount)
-            {
                 report.AppendLine($"Banknote value: {banknotePair.Key}     Count: {banknotePair.Value}");
-            }
 
             report.AppendLine("Coins: ");
             foreach (var coinPair in model.CoinsCount)
-            {
                 report.AppendLine($"Coin value: {coinPair.Key}     Count: {coinPair.Value}");
-            }
 
             return report.ToString();
         }
